@@ -1,0 +1,62 @@
+schema{
+    query: Query
+}
+
+type Query{
+    allParty: [Party]
+    guest(id: ID) : Guest
+    party(id: ID) : Party
+}
+
+type Party{
+    id: ID
+    event: String
+    date_birthday: String
+    description: String
+    accumulated: Int
+    guests: [Guest]
+}
+
+type Guest{
+    id: ID
+    name: String!
+    gift: Int!
+    participation_status: String!
+}
+
+type Mutation {
+    createParty(input: CreatePartyInput!): Party!
+    updateParty(input: UpdatePartyInput!): Party!
+    deleteParty(id: Int!): Int!
+    createGuest(input: CreateGuestInput!): Guest!
+    updateGuest(input: UpdateGuestInput!): Guest!
+    deleteGuest(id: Int!): Int!
+}
+
+input CreatePartyInput{
+    event: String!
+    date: String!
+    description: String
+}
+
+input UpdatePartyInput{
+    id: ID!
+    event: String
+    date: String
+    description: String
+}
+
+input CreateGuestInput{
+    name: String!
+    gift: Int!
+    participation_status: String!
+    partyId: Int!
+}
+
+input UpdateGuestInput{
+    id: ID!
+    name: String
+    gift: Int
+    participation_status: String
+}
+
