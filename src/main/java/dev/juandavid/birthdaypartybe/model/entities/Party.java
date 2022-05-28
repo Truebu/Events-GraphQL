@@ -1,13 +1,9 @@
 package dev.juandavid.birthdaypartybe.model.entities;
 
-import dev.juandavid.birthdaypartybe.model.dto.CreatePartyDto;
-import dev.juandavid.birthdaypartybe.model.dto.UpdatePartyDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Getter
@@ -25,7 +21,7 @@ public class Party {
     @Column(name = "event",nullable = false,columnDefinition = "TEXT")
     private String event;
 
-    @Column(name = "desciption", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "desciption", nullable = true, columnDefinition = "TEXT")
     private String desciption;
 
     @Column(name = "date",nullable = false,columnDefinition = "DATE")
@@ -35,7 +31,7 @@ public class Party {
     private int accumulated;
 
     @OneToMany(mappedBy = "party")
-    private Set<Guest> guests = new HashSet<>();
+    private List<Guest> guests = new ArrayList<>();
 
     public Party(String event, Date date, int accumulated) {
         this.event = event;
@@ -43,16 +39,4 @@ public class Party {
         this.accumulated = accumulated;
     }
 
-    public Party(CreatePartyDto dto) {
-        this.event = dto.getEvent();
-        this.desciption = dto.getDescription();
-        this.date = dto.getDate();
-    }
-
-    public Party(UpdatePartyDto dto) {
-        this.id = dto.getId();
-        this.event = dto.getEvent();
-        this.desciption = dto.getDescription();
-        this.date = dto.getDate();
-    }
 }

@@ -17,8 +17,8 @@ public class PartyLoaders implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Party party = new Party("Cumpleaños del admin",
+        /*Party party = new Party("Cumpleaños del admin",
                 new Date(2023, 6, 20, 0, 0), 0);
-        service.newParty(party);
+        service.newParty(party);*/
     }
 }

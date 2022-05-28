@@ -1,5 +1,8 @@
 package dev.juandavid.birthdaypartybe.business.service;
 
+import dev.juandavid.birthdaypartybe.model.dto.GuestDto;
+import dev.juandavid.birthdaypartybe.model.dto.MessageDto;
+import dev.juandavid.birthdaypartybe.model.dto.NewGuestDto;
 import dev.juandavid.birthdaypartybe.model.entities.Guest;
 import dev.juandavid.birthdaypartybe.model.repositories.GuestRepository;
 import lombok.AllArgsConstructor;
@@ -10,30 +13,35 @@ import org.springframework.stereotype.Service;
 public class GuestServiceImpl implements GuestService {
 
     private final GuestRepository repository;
+    private final PartyService partyService;
 
     @Override
-    public Guest newGuest(Guest guest) {
-
-        return repository.save(guest);
+    public MessageDto newGuest(NewGuestDto newGuestDto) {
+        Guest guest = new Guest(newGuestDto);
+        guest.setParty(partyService.findById(newGuestDto.getPartyId()));
+        repository.save(guest);
+        partyService.calculateAcumulated(partyService.findById(newGuestDto.getPartyId()));
+        return new MessageDto("Participante creado");
     }
 
     @Override
-    public Guest getGuestById(Long id) {
-        return repository.findById(id).get();
+    public GuestDto getGuestById(Long id) {
+        return new GuestDto(repository.findById(id).get());
     }
 
     @Override
-    public Guest editGuest(Guest guest) {
+    public MessageDto editGuest(Guest guest) {
         Guest newGuest = repository.findById(guest.getId()).get();
         newGuest.setName(guest.getName());
-        newGuest.setGift(guest.getGift());
         newGuest.setParticipationStatus(guest.getParticipationStatus());
-        return repository.save(newGuest);
+        repository.save(newGuest);
+        partyService.calculateAcumulated(partyService.findById(newGuest.getParty().getId()));
+        return new MessageDto("Participante editado");
     }
 
     @Override
-    public void deleteGuestById(Long id) {
-
+    public MessageDto deleteGuestById(Long id) {
         repository.deleteById(id);
+        return new MessageDto("Participante eliminado");
     }
 }

@@ -1,18 +1,24 @@
 package dev.juandavid.birthdaypartybe.business.service;
 
+import dev.juandavid.birthdaypartybe.model.dto.MessageDto;
+import dev.juandavid.birthdaypartybe.model.dto.PartyDto;
 import dev.juandavid.birthdaypartybe.model.entities.Party;
 
 import java.util.List;
 
 public interface PartyService {
 
-    Party newParty(Party party);
+    MessageDto newParty(Party party);
 
-    List<Party> findAll();
+    List<PartyDto> findAll();
+
+    PartyDto findByIdDto(Long id);
 
     Party findById(Long id);
 
-    Party editParty(Party party);
+    MessageDto editParty(Party party);
 
-    void deleteById(Long id);
+    MessageDto deleteById(Long id);
+
+    void calculateAcumulated(Party party);
 }
